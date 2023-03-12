@@ -1,0 +1,26 @@
+import os
+import shutil
+
+desktop_path = os.path.expanduser("~/Desktop")  # get the path of the desktop
+file_types = set()  # set to hold unique file types
+
+# loop through each file on the desktop
+for file_name in os.listdir(desktop_path):
+    file_path = os.path.join(desktop_path, file_name)
+    if os.path.isfile(file_path):  # check if the item is a file
+        file_type = file_name.split(".")[-1]  # get the file extension
+        file_types.add(file_type)  # add the file type to the set
+
+# create folders for each file type
+for file_type in file_types:
+    folder_path = os.path.join(desktop_path, file_type)
+    if not os.path.exists(folder_path):  # check if the folder already exists
+        os.mkdir(folder_path)  # create the folder if it doesn't exist
+
+# move files to their respective folders
+for file_name in os.listdir(desktop_path):
+    file_path = os.path.join(desktop_path, file_name)
+    if os.path.isfile(file_path):
+        file_type = file_name.split(".")[-1]
+        folder_path = os.path.join(desktop_path, file_type)
+        shutil.move(file_path, folder_path)
